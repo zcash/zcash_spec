@@ -12,3 +12,4 @@ repository = "https://github.com/zcash/zcash_spec"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
+blake2b_simd = "1"
