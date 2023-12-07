@@ -70,8 +70,8 @@ impl PrfExpand<()> {
     pub const ORCHARD_NK: Self = Self::new(0x07);
     pub const ORCHARD_RIVK: Self = Self::new(0x08);
     pub const SAPLING_ZIP32_MASTER_DK: Self = Self::new(0x10);
-    pub const SAPLING_ZIP32_CHILD_ASK: Self = Self::new(0x13);
-    pub const SAPLING_ZIP32_CHILD_NSK: Self = Self::new(0x14);
+    pub const SAPLING_ZIP32_CHILD_I_ASK: Self = Self::new(0x13);
+    pub const SAPLING_ZIP32_CHILD_I_NSK: Self = Self::new(0x14);
     pub const SAPLING_ZIP32_INTERNAL_NSK: Self = Self::new(0x17);
     pub const SAPLING_ZIP32_INTERNAL_DK_OVK: Self = Self::new(0x18);
 }
@@ -88,7 +88,7 @@ impl PrfExpand<[u8; 32]> {
     pub const SAPLING_ZIP32_CHILD_DK: Self = Self::new(0x16);
 }
 impl PrfExpand<[u8; 33]> {
-    pub const ZIP316_TRANSPARENT_OVK: Self = Self::new(0xD0);
+    pub const TRANSPARENT_ZIP316_OVK: Self = Self::new(0xD0);
 }
 with_inputs!(a, A);
 
