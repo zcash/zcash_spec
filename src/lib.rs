@@ -8,6 +8,8 @@
 //! [`sapling-crypto`]: https://crates.io/crates/sapling-crypto
 //! [`orchard`]: https://crates.io/crates/orchard
 
+#![no_std]
+#![deny(unsafe_code)]
 #![deny(rustdoc::broken_intra_doc_links)]
 
 mod prf_expand;
