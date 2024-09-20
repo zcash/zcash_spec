@@ -7,5 +7,10 @@ and this library adheres to Rust's notion of
 
 ## [Unreleased]
 
+## [0.1.1] - 2024-09-20
+### Fixed
+- The `std` default feature of `blake2b_simd` is now disabled, to enable no-std
+  usage.
+
 ## [0.1.0] - 2023-12-07
 Initial release.
