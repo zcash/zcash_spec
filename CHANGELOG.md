@@ -7,6 +7,7 @@ and this library adheres to Rust's notion of
 
 ## [Unreleased]
 
+## [0.1.2] - 2024-10-01
 ### Added
 - `zcash_spec::PrfExpand::ARBITRARY_ZIP32_CHILD`
 
