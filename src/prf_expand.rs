@@ -108,3 +108,20 @@ impl PrfExpand<([u8; 96], [u8; 32], [u8; 4])> {
     pub const SAPLING_ZIP32_CHILD_NON_HARDENED: Self = Self::new(0x12);
 }
 with_inputs!(a, A, b, B, c, C);
+
+impl PrfExpand<([u8; 32], [u8; 4])> {
+    pub const REGISTERED_ZIP32_CHILD: Self = Self::new(0xAC);
+
+    /// Expands the given secret key in this domain, with additional `lead`
+    /// and `tag` inputs.
+    pub fn with_tag(
+        self,
+        c_par: &[u8],
+        sk_par: &[u8; 32],
+        i: &[u8; 4],
+        lead: &[u8],
+        tag: &[u8],
+    ) -> [u8; 64] {
+        self.apply(c_par, &[sk_par, i, lead, tag])
+    }
+}
