@@ -94,8 +94,6 @@ with_inputs!(a, A);
 
 impl PrfExpand<([u8; 32], [u8; 4])> {
     pub const SPROUT_ZIP32_CHILD: Self = Self::new(0x80);
-    pub const ORCHARD_ZIP32_CHILD: Self = Self::new(0x81);
-    pub const ARBITRARY_ZIP32_CHILD: Self = Self::new(0xAB);
 }
 impl PrfExpand<([u8; 32], [u8; 32])> {
     pub const ORCHARD_DK_OVK: Self = Self::new(0x82);
@@ -109,19 +107,17 @@ impl PrfExpand<([u8; 96], [u8; 32], [u8; 4])> {
 }
 with_inputs!(a, A, b, B, c, C);
 
-impl PrfExpand<([u8; 32], [u8; 4])> {
+impl PrfExpand<([u8; 32], [u8; 4], Option<(u8, &[u8])>)> {
+    pub const ORCHARD_ZIP32_CHILD: Self = Self::new(0x81);
+    pub const ADHOC_ZIP32_CHILD: Self = Self::new(0xAB);
     pub const REGISTERED_ZIP32_CHILD: Self = Self::new(0xAC);
 
-    /// Expands the given secret key in this domain, with additional `lead`
-    /// and `tag` inputs.
-    pub fn with_tag(
-        self,
-        c_par: &[u8],
-        sk_par: &[u8; 32],
-        i: &[u8; 4],
-        lead: &[u8],
-        tag: &[u8],
-    ) -> [u8; 64] {
-        self.apply(c_par, &[sk_par, i, lead, tag])
+    /// Expands the given secret key in this domain.
+    pub fn with(self, sk: &[u8], a: &[u8; 32], b: &[u8; 4], c: Option<(u8, &[u8])>) -> [u8; 64] {
+        if let Some((d, e)) = c {
+            self.apply(sk, &[a, b, &[d], e])
+        } else {
+            self.apply(sk, &[a, b])
+        }
     }
 }
