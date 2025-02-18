@@ -48,6 +48,9 @@ impl<T> PrfExpand<T> {
     }
 }
 
+/// Marker type used for `PrfExpand` instantiations that permit a variable-length input.
+pub struct VariableLengthSlice;
+
 macro_rules! with_inputs {
     ($($arr:ident, $arrlen:ident),*) => {
         #[allow(unused_parens)]
@@ -107,7 +110,7 @@ impl PrfExpand<([u8; 96], [u8; 32], [u8; 4])> {
 }
 with_inputs!(a, A, b, B, c, C);
 
-impl PrfExpand<([u8; 32], [u8; 4], Option<(u8, &[u8])>)> {
+impl PrfExpand<([u8; 32], [u8; 4], Option<(u8, VariableLengthSlice)>)> {
     pub const ORCHARD_ZIP32_CHILD: Self = Self::new(0x81);
     pub const ADHOC_ZIP32_CHILD: Self = Self::new(0xAB);
     pub const REGISTERED_ZIP32_CHILD: Self = Self::new(0xAC);
