@@ -110,17 +110,17 @@ impl PrfExpand<([u8; 96], [u8; 32], [u8; 4])> {
 }
 with_inputs!(a, A, b, B, c, C);
 
-impl PrfExpand<([u8; 32], [u8; 4], Option<(u8, VariableLengthSlice)>)> {
+impl PrfExpand<([u8; 32], [u8; 4], [u8; 1], VariableLengthSlice)> {
     pub const ORCHARD_ZIP32_CHILD: Self = Self::new(0x81);
     pub const ADHOC_ZIP32_CHILD: Self = Self::new(0xAB);
     pub const REGISTERED_ZIP32_CHILD: Self = Self::new(0xAC);
 
     /// Expands the given secret key in this domain.
-    pub fn with(self, sk: &[u8], a: &[u8; 32], b: &[u8; 4], c: Option<(u8, &[u8])>) -> [u8; 64] {
-        if let Some((d, e)) = c {
-            self.apply(sk, &[a, b, &[d], e])
-        } else {
+    pub fn with(self, sk: &[u8], a: &[u8; 32], b: &[u8; 4], c: &[u8; 1], d: &[u8]) -> [u8; 64] {
+        if c == &[0] && d.is_empty() {
             self.apply(sk, &[a, b])
+        } else {
+            self.apply(sk, &[a, b, c, d])
         }
     }
 }

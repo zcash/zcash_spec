@@ -14,7 +14,7 @@ and this library adheres to Rust's notion of
 
 ### Changed
 - `zcash_spec::PrfExpand::ORCHARD_ZIP32_CHILD` now has type
-  `PrfExpand<([u8; 32], [u8; 4], Option<(u8, VariableLengthSlice)>)>` due to
+  `PrfExpand<([u8; 32], [u8; 4], [u8; 1], VariableLengthSlice)>` due to
   ZIP 32 changes.
 
 ### Removed
