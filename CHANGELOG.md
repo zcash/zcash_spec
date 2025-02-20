@@ -7,7 +7,7 @@ and this library adheres to Rust's notion of
 
 ## [Unreleased]
 
-## [0.2.0] - 2025-02-19
+## [0.2.1] - 2025-02-20
 ### Added
 - `zcash_spec::PrfExpand::REGISTERED_ZIP32_CHILD` (for tagged ZIP 32 child
   derivation).
@@ -22,6 +22,9 @@ and this library adheres to Rust's notion of
 ### Removed
 - `zcash_spec::PrfExpand::ARBITRARY_ZIP32_CHILD` (use `ADHOC_ZIP32_CHILD`
   instead).
+
+Note: There was no v0.2.0 release because the tag was originally pushed
+incorrectly.
 
 ## [0.1.2] - 2024-10-01
 ### Added

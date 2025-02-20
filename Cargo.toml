@@ -1,6 +1,6 @@
 [package]
 name = "zcash_spec"
-version = "0.2.0"
+version = "0.2.1"
 authors = [
     "Jack Grigg <jack@electriccoin.co>",
 ]
