@@ -48,6 +48,9 @@ impl<T> PrfExpand<T> {
     }
 }
 
+/// Marker type used for `PrfExpand` instantiations that permit a variable-length input.
+pub struct VariableLengthSlice;
+
 macro_rules! with_inputs {
     ($($arr:ident, $arrlen:ident),*) => {
         #[allow(unused_parens)]
@@ -94,8 +97,6 @@ with_inputs!(a, A);
 
 impl PrfExpand<([u8; 32], [u8; 4])> {
     pub const SPROUT_ZIP32_CHILD: Self = Self::new(0x80);
-    pub const ORCHARD_ZIP32_CHILD: Self = Self::new(0x81);
-    pub const ARBITRARY_ZIP32_CHILD: Self = Self::new(0xAB);
 }
 impl PrfExpand<([u8; 32], [u8; 32])> {
     pub const ORCHARD_DK_OVK: Self = Self::new(0x82);
@@ -108,3 +109,18 @@ impl PrfExpand<([u8; 96], [u8; 32], [u8; 4])> {
     pub const SAPLING_ZIP32_CHILD_NON_HARDENED: Self = Self::new(0x12);
 }
 with_inputs!(a, A, b, B, c, C);
+
+impl PrfExpand<([u8; 32], [u8; 4], [u8; 1], VariableLengthSlice)> {
+    pub const ORCHARD_ZIP32_CHILD: Self = Self::new(0x81);
+    pub const ADHOC_ZIP32_CHILD: Self = Self::new(0xAB);
+    pub const REGISTERED_ZIP32_CHILD: Self = Self::new(0xAC);
+
+    /// Expands the given secret key in this domain.
+    pub fn with(self, sk: &[u8], a: &[u8; 32], b: &[u8; 4], c: &[u8; 1], d: &[u8]) -> [u8; 64] {
+        if c == &[0] && d.is_empty() {
+            self.apply(sk, &[a, b])
+        } else {
+            self.apply(sk, &[a, b, c, d])
+        }
+    }
+}
