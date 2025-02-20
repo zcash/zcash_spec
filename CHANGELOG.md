@@ -6,6 +6,8 @@ and this library adheres to Rust's notion of
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.0] - 2025-02-19
 ### Added
 - `zcash_spec::PrfExpand::REGISTERED_ZIP32_CHILD` (for tagged ZIP 32 child
   derivation).
