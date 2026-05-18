@@ -104,6 +104,13 @@ impl PrfExpand<([u8; 32], [u8; 32])> {
 }
 with_inputs!(a, A, b, B);
 
+impl PrfExpand<([u8; 32], [u8; 32], [u8; 8], [u8; 32], [u8; 32])> {
+    /// The ZIP 2005 domain for deriving Orchard note commitment randomness
+    /// for quantum-recoverable notes.
+    pub const ORCHARD_QR_RCM: Self = Self::new(0x0B);
+}
+with_inputs!(a, A, b, B, c, C, d, D, e, E);
+
 impl PrfExpand<([u8; 96], [u8; 32], [u8; 4])> {
     pub const SAPLING_ZIP32_CHILD_HARDENED: Self = Self::new(0x11);
     pub const SAPLING_ZIP32_CHILD_NON_HARDENED: Self = Self::new(0x12);
@@ -122,5 +129,37 @@ impl PrfExpand<([u8; 32], [u8; 4], [u8; 1], VariableLengthSlice)> {
         } else {
             self.apply(sk, &[a, b, c, d])
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{PrfExpand, PRF_EXPAND_PERSONALIZATION};
+    use blake2b_simd::Params;
+
+    #[test]
+    fn orchard_qr_rcm_matches_zip_2005_preimage() {
+        let rseed = [0x10; 32];
+        let g_d = [0x20; 32];
+        let pk_d = [0x30; 32];
+        let value = 0x0102_0304_0506_0708u64.to_le_bytes();
+        let rho = [0x40; 32];
+        let psi = [0x50; 32];
+
+        let actual = PrfExpand::ORCHARD_QR_RCM.with(&rseed, &g_d, &pk_d, &value, &rho, &psi);
+
+        let mut h = Params::new()
+            .hash_length(64)
+            .personal(PRF_EXPAND_PERSONALIZATION)
+            .to_state();
+        h.update(&rseed);
+        h.update(&[0x0B]);
+        h.update(&g_d);
+        h.update(&pk_d);
+        h.update(&value);
+        h.update(&rho);
+        h.update(&psi);
+
+        assert_eq!(actual, *h.finalize().as_array());
     }
 }

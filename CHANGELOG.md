@@ -6,6 +6,9 @@ and this library adheres to Rust's notion of
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `zcash_spec::PrfExpand::ORCHARD_QR_RCM` for ZIP 2005 Orchard
+  quantum-recoverable note commitment randomness derivation.
 
 ## [0.2.1] - 2025-02-20
 ### Added
